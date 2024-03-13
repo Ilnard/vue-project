@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 11 2024 г., 14:06
+-- Время создания: Мар 13 2024 г., 03:19
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `vue-project-db`
+-- База данных: `general`
 --
 
 -- --------------------------------------------------------
@@ -43,11 +43,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `number`, `client`, `title`, `datetime`, `pay`, `paid`, `status`) VALUES
-(1, 123, 'Евгений', 'Постройка гаража', '2024-03-10 02:00:00', 300000, 0, 'not started'),
-(2, 675, 'Владимир', 'Постройка дома', '2024-03-11 14:00:00', 4500000, 0, 'not started'),
-(3, 876, 'Сергей', 'Ремонт дома', '2024-03-07 20:10:00', 500000, 50000, 'not started'),
-(4, 984, 'Валерия', 'Ремонт квартиры', '2024-03-13 00:15:00', 100000, 0, 'not started'),
-(5, 654, 'Валентин', 'Ремонт квартиры', '2024-03-10 20:20:00', 600000, 0, 'not started');
+(16, 123, 'Евгений', 'Постройка дома 100 кв. м2', '2024-03-12 19:00:00', 4500000, 0, 'Не начата');
 
 --
 -- Индексы сохранённых таблиц
@@ -68,7 +64,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

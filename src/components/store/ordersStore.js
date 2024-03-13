@@ -3,11 +3,11 @@ import { defineStore } from "pinia"
 export const useOrdersStore = defineStore('ordersStore', {
     state: () => {
         return {
-            orders: []
+            orders: null
         }
     },
     getters: {
-        getOrdersFromStore: (state) => state.orders.length ? state.orders : false,
+        getOrdersFromStore: (state) => state.orders ? state.orders : false,
         getOrderFromStore: (state) => number => state.orders.length ? state.orders.find(order => order.number == number) : false,
     },
     actions: {
@@ -18,7 +18,7 @@ export const useOrdersStore = defineStore('ordersStore', {
             return data
         },
         getOrdersFromServer() {
-            fetch('http://vue-project-server:8080/get-orders/', {
+            fetch('http://vue-project-server:8080/api/get-orders/', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export const useOrdersStore = defineStore('ordersStore', {
             })
             .then(res => res.json())
             .then(data => {
-                if (data.status && data.code == 0) {
+                if (data.status) {
                     data.data = this.fixDateTime(data.data)
                     this.orders = data.data
                 }

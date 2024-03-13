@@ -5,7 +5,7 @@
             <RouterLink to="/addorder" class="viewer-header__link">Добавить заказ</RouterLink>
         </header>
         <vLoader v-if="!loaded"/>
-        <table v-if="loaded" class="orders">
+        <table v-if="loaded && getOrdersFromStoreComp.length" class="orders">
             <thead>
                 <tr>
                     <td class="orders__cell">Заявка</td>
@@ -29,6 +29,7 @@
                 </tr>
             </tbody>
         </table>
+        <div v-else-if="loaded" class="server-message red">Заказов нет</div>
     </div>
 </template>
 

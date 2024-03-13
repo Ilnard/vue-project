@@ -68,7 +68,7 @@ export default {
                 datetime: '',
                 pay: 0,
                 paid: 0,
-                status: 'not started'
+                status: 'Не начата'
             },
             serverMessage: {
                 message: '',
@@ -80,7 +80,7 @@ export default {
     methods: {
         addOrderFunc() {
             this.buttonSaveContent = 'Загрузка...'
-            fetch('http://vue-project-server:8080/add-order/', {
+            fetch('http://vue-project-server:8080/api/add-order/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,11 +90,16 @@ export default {
             .then(res => res.json())
             .then(data => {
                 this.buttonSaveContent = 'Сохранить'
-                if (data.status && data.code == 0) {
+                if (data.status) {
                     this.serverMessage.message = 'Заказ успешно добавлен'
                     this.serverMessage.color = 'green'
                     }
+                else {
+                    this.serverMessage.message = `Что-то пошло не так (${data.message})`
+                    this.serverMessage.color = 'red'
                 }
+                }
+                
             )
         }
     }
