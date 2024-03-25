@@ -1,9 +1,9 @@
 <?php
-    class Orders {
+    class Members {
         private $db;
         private $conn;
 
-        public $orders;
+        public $members;
 
         function __construct($db) {
             $this->db = $db;
@@ -17,7 +17,7 @@
                 'status' => true
             ];
 
-            $sql = "SELECT id, number, client, title, datetime, pay, paid, status FROM orders";
+            $sql = "SELECT name, surname, patronymic, birthdate, position, department, employmentdate FROM members";
             $result = mysqli_query($this->conn, $sql);
 
             if (!$result) {
@@ -27,8 +27,8 @@
                 return $response;
             }
             else {
-                while($order = mysqli_fetch_assoc($result)) {
-                    array_push($response['data'], $order);
+                while($member = mysqli_fetch_assoc($result)) {
+                    array_push($response['data'], $member);
                 }
 
                 $reponse['message'] = 'success';

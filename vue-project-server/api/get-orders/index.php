@@ -6,7 +6,7 @@
     $db = new GeneralDatabase();
 
     $orders = new Orders($db);
-    $response = $orders->get_orders_from_db();
+    $response = $orders->get_from_db();
 
     echo json_encode($response);
 ?>

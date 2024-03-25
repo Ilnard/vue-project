@@ -12,12 +12,12 @@
 <script>
 import { RouterView } from 'vue-router'
 import vNavBar from './components/vNavBar.vue'
-import { useOrdersStore } from './components/store/ordersStore'
+import { useGeneralStore } from './components/store/generalStore'
 
 export default {
     components: { vNavBar },
     created() {
-        useOrdersStore().getOrdersFromServer()
+        useGeneralStore().getOrdersFromServer()
     },
 }
 </script>
@@ -27,9 +27,9 @@ main {
     display: grid;
     grid-template-columns: 1fr 5fr;
     gap: 10px;
-    max-width: 1200px;
+    max-width: 1300px;
     width: 100%;
     margin: 0 auto;
     padding: 20px;
 }
-</style>
+</style>./components/store/generakStore

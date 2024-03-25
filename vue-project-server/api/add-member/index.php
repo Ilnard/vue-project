@@ -1,6 +1,6 @@
 <?php
     require_once '../../headers.php';
-    require_once '../../objects/order.php';
+    require_once '../../objects/member.php';
     require_once '../../config/generalDatabase.php';
 
     $data = file_get_contents('php://input');
@@ -8,8 +8,8 @@
 
     $db = new GeneralDatabase();
 
-    $order = new Order($db, $data);
-    $response = $order->add_to_db();
+    $member = new Member($db, $data);
+    $response = $member->add_to_db();
         
     echo json_encode($response);
 ?>

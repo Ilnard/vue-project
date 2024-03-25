@@ -1,12 +1,5 @@
 <?php
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
-    header("Content-Type: application/json;");
+    require_once 'header.php';
 
-    $data = file_get_contents('php://input');
-    $data = json_decode($data);
-
-    echo json_encode([
-        'message' => 'hello'
-    ]);
+    echo 'its a organization api server';
 ?>

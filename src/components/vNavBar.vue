@@ -4,6 +4,7 @@
         </div>
         <div class="navbar__group">
             <RouterLink to="/" class="navbar__link">Заказы</RouterLink>
+            <RouterLink to="/organization" class="navbar__link">Организация</RouterLink>
         </div>
         <div class="navbar__group">
         </div>

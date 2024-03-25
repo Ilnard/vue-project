@@ -1,17 +1,30 @@
 <template>
     <div class="parent-div">
-        <vLoader v-if="!loaded" />
-        <div v-if="loaded" class="order">
+        <vLoader v-if="!getOrder.isLoaded" />
+        <div v-if="getOrder.isLoaded" class="order">
             <header class="viewer-header">
-                <h2 class="viewer__title">{{ getOrderFromComp.number }}</h2>
-                <div class="order__date">{{ getOrderFromComp.datetime }}</div>
+                <h2 class="viewer__title">{{ getOrder.order.number }}</h2>
+                <div class="order__date">{{ getOrder.order.datetime }}</div>
             </header>
-            <div class="order__client">{{ getOrderFromComp.client }}</div>
-            <div class="order__title">{{ getOrderFromComp.title }}</div>
-            <div class="order__pay">{{ getOrderFromComp.pay }} <span>({{ getOrderFromComp.paid }})</span></div>
-            <div class="order__status">{{ getOrderFromComp.status }}</div>
+            <div class="order__client">{{ getOrder.order.client }}</div>
+            <div class="order__title">{{ getOrder.order.title }}</div>
+            <div class="order__pay">{{ getOrder.order.pay }} руб <span class="order__paid">({{ getOrder.order.paid }} руб)</span></div>
+            <div class="order__status">{{ getOrder.order.status }}</div>
+            <div class="order-members applied">
+                <h3 class="order-members__title">Привязанные к объекту:</h3>
+                <ul class="order-members__list">
+                    <li class="order-members__member">Андрей Михайлов <span class="order-members__member-position">(Рабочий)</span></li>
+                    <li class="order-members__member">Сергей Петров <span class="order-members__member-position">(Водитель)</span></li>
+                </ul>
+            </div>
+            <div class="order-members applied">
+                <h3 class="order-members__title">Недопущенные к объекту:</h3>
+                <ul class="order-members__list">
+                    <li class="order-members__member">Сергей Алкин <span class="order-members__member-position">(Рабочий)</span></li>
+                </ul>
+            </div>
         </div>
-        <div v-if="loaded" class="control-bar">
+        <div v-if="getOrder.isLoaded" class="control-bar">
             <button class="btn-save" @click="addOrderFunc()">{{ buttonSaveContent }}</button>
         </div>
         <div v-if="serverMessage.message" class="server-message" :class="[serverMessage.color]">{{ serverMessage.message }}</div>
@@ -20,21 +33,20 @@
 
 <script>
 import { storeToRefs } from 'pinia'
-import { useOrdersStore } from '../store/ordersStore'
+import { useGeneralStore } from '../store/generalStore'
 import vLoader from './service_vLoader.vue'
 
 export default {
     setup() {
-        const OrdersStore = useOrdersStore()
-        const { getOrderFromStore } = storeToRefs(OrdersStore)
+        const generalStore = useGeneralStore()
+        const { getOrder } = storeToRefs(generalStore)
 
-        return { getOrderFromStore }
+        return { generalStore, getOrder }
     },
     components: { vLoader },
     data() {
         return {
             orderNumber: this.$route.params.number,
-            loaded: false,
             buttonSaveContent: 'Сохранить',
             serverMessage: {
                 message: '',
@@ -42,18 +54,42 @@ export default {
             }
         }
     },
-    computed: {
-        getOrderFromComp() {
-           return useOrdersStore().getOrderFromStore(this.orderNumber)
-        } 
-    },
-    watch: {
-        getOrderFromComp() {
-            this.loaded = true
-        }
-    },
     created() {
-        if (this.getOrderFromComp) this.loaded = true
+        this.generalStore.setOrderViewData(this.orderNumber)
     }
 }
 </script>
+
+<style scoped>
+    .order {
+        font-size: 16px;
+    }
+    .order__client, .order__title {
+        font-size: 1em;
+        margin-bottom: 10px;
+    }
+    .order__pay {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+    .order__paid {
+        font-size: 1em;
+    }
+    .order__status {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+    .order-members {
+        margin-bottom: 20px;
+    }
+    .order-members__title {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    .order-members__member {
+        margin-left: 20px;
+    }
+    .order-members__member-position {
+        color: var(--grey-lv3);
+    }
+</style>

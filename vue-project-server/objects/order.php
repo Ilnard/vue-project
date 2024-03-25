@@ -45,5 +45,28 @@
             return $response;
         }
 
+        public function get_from_db() {
+            $response = [
+                'data' => [],
+                'status' => true,
+                'message' => '',
+            ];
+
+            $sql = "SELECT number, client, title, datetime, pay, paid, status FROM orders WHERE number = $this->number";
+            $result = mysqli_query($this->conn, $sql);
+
+            if (!$result) {
+                $response['status'] = false;
+                $response['message'] = "sql query error ($sql)";
+                $response['data'] = null;
+            }
+            else {
+                $response['data'] = mysqli_fetch_assoc($result);
+                $reponse['message'] = 'success';
+            }
+
+            return $response;
+        }
+
     }
 ?>
