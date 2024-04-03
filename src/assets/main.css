@@ -46,6 +46,10 @@ input:focus {
 .viewer__title {
     font-size: 20px;
 }
+.viewer-header__links {
+    display: flex;
+    gap: 20px;
+}
 .viewer-header__link {
     color: blue;
 }

@@ -2,7 +2,10 @@
     <div class="parent-div">
         <header class="viewer-header">
             <h2 class="viewer__title">Добавить сотрудника</h2>
-            <RouterLink to="/organization" class="viewer-header__link">Вернуться к организации</RouterLink>
+            <nav class="viewer-header__links">
+                <RouterLink to="/organization" class="viewer-header__link">Организация</RouterLink>
+                <RouterLink to="/shiftcalendar" class="viewer-header__link">Календарь смен</RouterLink>
+            </nav>
         </header>
         <form>
             <div class="form-fields">

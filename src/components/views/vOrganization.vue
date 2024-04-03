@@ -2,7 +2,10 @@
     <div class="parent-div">
         <header class="viewer-header">
             <h2 class="viewer__title">Организация</h2>
-            <RouterLink to="/addmember" class="viewer-header__link">Добавить сотрудника</RouterLink>
+            <nav class="viewer-header__links">
+                <RouterLink to="/shiftcalendar" class="viewer-header__link">Календарь смен</RouterLink>
+                <RouterLink to="/addmember" class="viewer-header__link">Добавить сотрудника</RouterLink>
+            </nav>
         </header>
         <vLoader v-if="!getMembers.isLoaded" />
         <table v-if="getMembers.isLoaded" class="table">

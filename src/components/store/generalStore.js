@@ -20,15 +20,19 @@ export const useGeneralStore = defineStore('generalStore', {
                 errorMessage: '',
                 isLoaded: false,
                 status: false
+            },
+            currentShiftCalendarItem: {
+                data: [],
+                isLoaded: false,
+                status: false,
             }
-
-
         }
     },
     getters: {
         getOrders: (state) => state.ordersData,
         getOrder: (state) => state.orderViewData,
         getMembers: (state) => state.membersData,
+        getShiftCalendarItem: (state) => state.currentShiftCalendarItem,
     },
     actions: {
         fixDateTime(datetime) {
@@ -136,6 +140,51 @@ export const useGeneralStore = defineStore('generalStore', {
                     .catch(() => {
                         this.membersData.isLoaded = true
                         this.membersData.errorMessage = 'Сервер не отвечает (Ошибка отправки запроса)'
+                    })
+            }
+        },
+        getShiftCalendarItemFromServer(date) {
+            if (!this.currentShiftCalendarItem.isChecked) {
+                date = date.replace(/\./gi, '-')
+                fetch(`http://vue-project-server:8080/api/get-shift-calendar-item/?date=${date}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                    .then(res => res.ok ? res.json() : Promise.reject(res))
+                    .then(data => {
+                        this.currentShiftCalendarItem.isLoaded = true
+                        if (data.status) {
+                            this.currentShiftCalendarItem.status = data.status
+                            if (data.data.length) {
+                                data.data.forEach(item => {
+                                    switch (item.status) {
+                                        case '0': {
+                                            item.status = 'Нет'
+                                            break
+                                        }
+                                        case '1': {
+                                            item.status = 'Да'
+                                            break
+                                        }
+                                    }
+                                })
+                                
+                                this.currentShiftCalendarItem.data = data.data
+                                this.currentShiftCalendarItem.data.date = date
+                            }
+                            else {
+                                this.currentShiftCalendarItem.errorMessage = 'Заказов нет'
+                            }
+                        }
+                        else {
+                            this.currentShiftCalendarItem.errorMessage = `Ошибка обработки запроса на сервере (${data.message})`
+                        }
+                    })
+                    .catch(() => {
+                        this.currentShiftCalendarItem.isLoaded = true
+                        this.currentShiftCalendarItem.errorMessage = 'Сервер не отвечает (Ошибка отправки запроса)'
                     })
             }
         }
