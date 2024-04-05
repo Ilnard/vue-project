@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="control-bar">
-                <button class="btn-save" type="button" @click="addMemberFunc()">{{ buttonSaveContent }}</button>
+                <button class="btn" type="button" @click="addMemberFunc()">{{ buttonSaveContent }}</button>
             </div>
         </form>
         <div v-if="serverMessage.message" class="service-message" :class="[serverMessage.color]">{{ serverMessage.message }}</div>

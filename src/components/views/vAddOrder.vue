@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="control-bar">
-                <button class="btn-save" type="button" @click="addOrderFunc()">{{ buttonSaveContent }}</button>
+                <button class="btn" type="button" @click="addOrderFunc()">{{ buttonSaveContent }}</button>
             </div>
         </form>
         <div v-if="serverMessage.message" class="service-message" :class="[serverMessage.color]">{{
