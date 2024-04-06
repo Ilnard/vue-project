@@ -11,7 +11,7 @@
         public $department;
         public $employmentdate;
 
-        function __construct($db, $data) {
+        function __construct($db, $data = []) {
             $this->db = $db;
             $this->conn = $this->db->getConnection();
 
@@ -39,6 +39,30 @@
                 return $response;
             }
             else {
+                $response['message'] = 'success';
+            }
+
+            return $response;
+        }
+
+        public function get_from_db($member_id) {
+            $response = [
+                'data' => [],
+                'status' => true,
+                'message' => '',
+            ];
+
+            $sql = "SELECT name, surname, patronymic, birthdate, position, department, employmentdate, payment FROM members WHERE id = $member_id";
+            $result = mysqli_query($this->conn, $sql);
+
+            if (!$result) {
+                $response['status'] = false;
+                $response['message'] = 'sql query error';
+                return $response;
+            }
+            else {
+                $response['data'] = mysqli_fetch_assoc($result);
+
                 $response['message'] = 'success';
             }
 
