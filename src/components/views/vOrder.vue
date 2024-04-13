@@ -25,7 +25,7 @@
             </div>
         </div>
         <div v-if="getOrder.isLoaded" class="control-bar">
-            <button class="btn-save" @click="addOrderFunc()">{{ buttonSaveContent }}</button>
+            <button class="btn" @click="addOrderFunc()">{{ buttonSaveContent }}</button>
         </div>
         <div v-if="serverMessage.message" class="server-message" :class="[serverMessage.color]">{{ serverMessage.message }}</div>
     </div>

@@ -7,7 +7,7 @@
                 <RouterLink to="/addmember" class="viewer-header__link">Добавить сотрудника</RouterLink>
             </nav>
         </header>
-        <input type="date" class="shift-date" v-model="date">
+        <input v-if="getShiftCalendarItem.isLoaded" type="date" class="shift-date" v-model="date">
         <vLoader v-if="!getShiftCalendarItem.isLoaded" />
         <table v-if="getShiftCalendarItem.isLoaded" class="table">
             <thead>

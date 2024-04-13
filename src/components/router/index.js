@@ -5,6 +5,7 @@ import vOrder from '../views/vOrder.vue'
 import vOrganization from '../views/vOrganization.vue'
 import vAddMember from '../views/vAddMember.vue'
 import vShiftCalendar from '../views/vShiftCalendar.vue'
+import vAuditLog from '../views/vAuditLog.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,8 +39,12 @@ const router = createRouter({
       path: '/shiftcalendar',
       name: 'shiftcalendar',
       component: vShiftCalendar,
-    }
-    
+    },
+    {
+      path: '/auditlog',
+      name: 'auditlog',
+      component: vAuditLog,
+    },
   ]
 })
 

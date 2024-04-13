@@ -5,6 +5,7 @@
         <div class="navbar__group">
             <RouterLink to="/" class="navbar__link">Заказы</RouterLink>
             <RouterLink to="/organization" class="navbar__link">Организация</RouterLink>
+            <RouterLink to="/auditlog" class="navbar__link">Журнал аудита</RouterLink>
         </div>
         <div class="navbar__group">
             <button class="navbar__link red-bg" @click="logout()">Выйти</button>
