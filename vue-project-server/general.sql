@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 06 2024 г., 09:11
+-- Время создания: Апр 25 2024 г., 06:52
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -35,18 +35,17 @@ CREATE TABLE `members` (
   `birthdate` date NOT NULL,
   `employmentdate` date NOT NULL,
   `position` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `department` varchar(255) NOT NULL,
-  `payment` int NOT NULL
+  `department` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `members`
 --
 
-INSERT INTO `members` (`id`, `name`, `surname`, `patronymic`, `birthdate`, `employmentdate`, `position`, `department`, `payment`) VALUES
-(1, 'Иван', 'Петров', 'Александрович', '1993-05-15', '2023-11-20', 'Разнорабочий', '', 300),
-(2, 'Григорий', '', 'Алексеевич', '1980-01-05', '2015-04-10', 'Монтажник', 'Монтаж', 250),
-(3, 'Динрик', 'Ибраков', 'Альбертович', '1988-07-20', '2015-05-15', 'Разнорабочий', '', 50);
+INSERT INTO `members` (`id`, `name`, `surname`, `patronymic`, `birthdate`, `employmentdate`, `position`, `department`) VALUES
+(1, 'Иван', 'Петров', 'Александрович', '1993-05-15', '2023-11-20', 'Разнорабочий', ''),
+(2, 'Григорий', 'Сергеев', 'Алексеевич', '1980-01-05', '2015-04-10', 'Монтажник', 'Монтаж'),
+(3, 'Динар', 'Ибраков', 'Альбертович', '1988-07-20', '2015-05-15', 'Разнорабочий', '');
 
 -- --------------------------------------------------------
 
@@ -60,8 +59,8 @@ CREATE TABLE `orders` (
   `client` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `datetime` datetime NOT NULL,
+  `endpoint` timestamp NULL DEFAULT NULL,
   `pay` double NOT NULL,
-  `paid` double NOT NULL,
   `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -69,10 +68,9 @@ CREATE TABLE `orders` (
 -- Дамп данных таблицы `orders`
 --
 
-INSERT INTO `orders` (`id`, `number`, `client`, `title`, `datetime`, `pay`, `paid`, `status`) VALUES
-(17, 123, 'Евгений', 'Постройка дома', '2024-03-13 16:19:26', 1000000, 500000, 'Не начата'),
-(18, 455, 'Сергей', '', '2024-03-13 17:09:57', 500000, 100000, ''),
-(19, 785498, 'Олег Антипов', 'Постройка гаража', '2024-03-19 12:00:00', 700000, 50000, 'Не начата');
+INSERT INTO `orders` (`id`, `number`, `client`, `title`, `datetime`, `endpoint`, `pay`, `status`) VALUES
+(24, 654, 'Игорь', '123', '2024-03-15 15:00:00', '2024-04-11 23:00:00', 500, 'Завершена'),
+(26, 9090, 'Игорь', '123', '2024-04-13 15:00:00', NULL, 10000, 'В работе');
 
 -- --------------------------------------------------------
 
@@ -134,7 +132,7 @@ ALTER TABLE `members`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT для таблицы `users`

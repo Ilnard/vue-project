@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 :root {
     --accent-color: #2871FF;
+    --safety: #05c04d;
     --danger: #FF5151;
     --grey-lv1: #e9e9e9;
     --grey-lv2: #CDCDCD;
@@ -27,12 +28,6 @@ button {
 input:focus {
     outline: none;
 }
-/* .container {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 10px;
-} */
 .parent-div {
     padding: 20px;
     background-color: white;
@@ -58,23 +53,32 @@ input:focus {
     text-decoration: underline;
 }
 .control-bar {
+    display: flex;
+    gap: 20px;
     margin-top: 15px;
 }
 .btn {
-    padding: 12px 40px;
     color: white;
     background-color: var(--accent-color);
     border-radius: 5px;
-    margin-top: 5px;
 }
 .btn:hover {
     background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0 0);
+}
+.save-btn {
+    padding: 12px 40px;
+}
+.edit-btn {
+    background: none;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 12px 40px;
 }
 .service-message {
     margin-top: 10px;
 }
 .service-message.green {
-    color: #05c04d;
+    color: var(--safety);
 }
 .service-message.red {
     color: #dd2c2c;
@@ -120,6 +124,9 @@ input:focus {
     border-radius: 5px;
     border: 1px solid var(--grey-lv2);
     padding: 10px;
+}
+.field__input_long {
+    font-size: 11px;
 }
 .field__input.error {
     border: 1px solid #dd2c2c;

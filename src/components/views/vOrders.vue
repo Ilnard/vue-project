@@ -2,7 +2,7 @@
     <div class="parent-div">
         <header class="viewer-header">
             <h2 class="viewer__title">Заказы</h2>
-            <RouterLink to="/addorder" class="viewer-header__link">Добавить заказ</RouterLink>
+            <RouterLink to="/order/edit" class="viewer-header__link">Добавить заказ</RouterLink>
         </header>
         <vLoader v-if="!getOrders.isLoaded" />
         <table v-if="getOrders.isLoaded && getOrders.status && getOrders.orders.length" class="table">
@@ -12,8 +12,9 @@
                     <td class="cell">Заказчик</td>
                     <td class="cell">Название заказа</td>
                     <td class="cell">Дата и время</td>
-                    <td class="cell">Сумма</td>
-                    <td class="cell">Оплачено</td>
+                    <td class="cell">Часы</td>
+                    <td class="cell">Оп./час</td>
+                    <td class="cell">Итого</td>
                     <td class="cell">Статус</td>
                 </tr>
             </thead>
@@ -25,9 +26,10 @@
                     </td>
                     <td class="cell">{{ order.client }}</td>
                     <td class="cell">{{ order.title }}</td>
-                    <td class="cell">{{ order.datetime }}</td>
+                    <td class="cell">{{ order.datetimeVisual }}</td>
+                    <td class="cell">{{ order.hours }}</td>
                     <td class="cell">{{ order.pay }}</td>
-                    <td class="cell">{{ order.paid }}</td>
+                    <td class="cell">{{ order.hours * order.pay }}</td>
                     <td class="cell">{{ order.status }}</td>
                 </tr>
             </tbody>

@@ -32,15 +32,16 @@ export const useGeneralStore = defineStore('generalStore', {
         getOrders: (state) => state.ordersData,
         getOrder: (state) => state.orderViewData,
         getMembers: (state) => state.membersData,
+        getMember: (state) => (id) => state.membersData.members.find(member => member.id == id),
         getShiftCalendarItem: (state) => state.currentShiftCalendarItem,
     },
     actions: {
         fixDateTime(datetime) {
-            datetime = datetime.split(' ')[0].split('-').reverse().join('.') + ', ' + datetime.split(' ')[1].slice(0, 5);
+            datetime = new Date(datetime).toLocaleDateString('ru') + ' ' + new Date(datetime).toLocaleTimeString('ru').slice(0, -3)
             return datetime
         },
         fixDate(date) {
-            date = date.split(' ')[0].split('-').reverse().join('.')
+            date = new Date(date).toLocaleDateString('ru')
             return date
         },
         getOrdersFromServer() {
@@ -56,7 +57,23 @@ export const useGeneralStore = defineStore('generalStore', {
                     if (data.status) {
                         this.ordersData.status = data.status
                         if (data.data.length) {
-                            data.data.forEach(order => order.datetime = this.fixDateTime(order.datetime))
+                            data.data.forEach(order => {
+                                // Исправляем дату для визуала
+                                order.datetimeVisual = this.fixDateTime(order.datetime)
+                                // Высчитываем количество проработанных часов
+                                switch (order.status) {
+                                    case 'В работе': {
+                                        const diff = new Date(order.datetime).getTime() - new Date().getTime()
+                                        order.hours = Math.round(Math.abs(diff) / (1000 * 3600) * 10) / 10
+                                        break
+                                    }
+                                    case 'Завершена': {
+                                        const diff = new Date(order.datetime).getTime() - new Date(order.endpoint).getTime()
+                                        order.hours = Math.round(Math.abs(diff) / (1000 * 3600) * 10) / 10
+                                        break
+                                    }
+                                }
+                            })
                             this.ordersData.orders = data.data
                         }
                         else {
@@ -73,41 +90,33 @@ export const useGeneralStore = defineStore('generalStore', {
                 })
         },
         setOrderViewData(number) {
-            const order = this.ordersData.orders.find(order => order.number == number)
-            if (order) {
-                this.orderViewData.order = order
-                this.orderViewData.isLoaded = true
-                this.orderViewData.status = true
-            }
-            else {
-                fetch(`http://vue-project-server:8080/api/get-order/?number=${number}`, {
-                    method: 'GET',
+            this.orderViewData.isLoaded = false
+            fetch(`http://vue-project-server:8080/api/get-order/?number=${number}`, {
+                method: 'GET',
+            })
+                .then(res => {
+                    return res.ok ? res.json() : Promise.reject(res)
                 })
-                    .then(res => {
-                        return res.ok ? res.json() : Promise.reject(res)
-                    })
-                    .then(data => {
-                        this.orderViewData.isLoaded = true
-                        if (data.status) {
-                            this.orderViewData.status = data.status
-                            if (data) {
-                                data.data.datetime = this.fixDateTime(data.data.datetime)
-                                this.orderViewData.order = data.data
-                            }
-                            else {
-                                this.orderViewData.errorMessage = 'Заказа нет'
-                            }
+                .then(data => {
+                    this.orderViewData.isLoaded = true
+                    if (data.status) {
+                        this.orderViewData.status = data.status
+                        if (data.data.number) {
+                            data.data.datetimeVisual = this.fixDateTime(data.data.datetime)
+                            this.orderViewData.order = data.data
                         }
                         else {
-                            this.orderViewData.errorMessage = `Ошибка обработки запроса на сервере (${data.message})`
+                            this.orderViewData.errorMessage = 'Заказа нет'
                         }
-                    })
-                    .catch(() => {
-                        this.orderViewData.isLoaded = true
-                        this.orderViewData.errorMessage = 'Сервер не отвечает (Ошибка отправки запроса)'
-                    })
-
-            }
+                    }
+                    else {
+                        this.orderViewData.errorMessage = `Ошибка обработки запроса на сервере (${data.message})`
+                    }
+                })
+                .catch(() => {
+                    this.orderViewData.isLoaded = true
+                    this.orderViewData.errorMessage = 'Сервер не отвечает (Ошибка отправки запроса)'
+                })
         },
         getMembersFromServer() {
             if (!this.membersData.members.length) {
@@ -124,8 +133,9 @@ export const useGeneralStore = defineStore('generalStore', {
                             this.membersData.status = data.status
                             if (data.data.length) {
                                 data.data.forEach(member => {
-                                    member.birthdate = this.fixDate(member.birthdate)
-                                    member.employmentdate = this.fixDate(member.employmentdate)
+                                    member.birthdateVisual = this.fixDate(member.birthdate)
+                                    member.employmentdateVisual = this.fixDate(member.employmentdate)
+                                    member.allowed = 0
                                 })
                                 this.membersData.members = data.data
                             }
@@ -158,19 +168,11 @@ export const useGeneralStore = defineStore('generalStore', {
                         if (data.status) {
                             this.currentShiftCalendarItem.status = data.status
                             if (data.data.length) {
-                                data.data.forEach(item => {
-                                    switch (item.status) {
-                                        case '0': {
-                                            item.status = 'Нет'
-                                            break
-                                        }
-                                        case '1': {
-                                            item.status = 'Да'
-                                            break
-                                        }
-                                    }
+                                data.data.forEach(order => {
+                                    // Исправляем даты для визуала
+                                    order.datetimeVisual = this.fixDateTime(order.datetime)
+                                    order.endpointVisual = this.fixDateTime(order.endpoint)
                                 })
-                                
                                 this.currentShiftCalendarItem.data = data.data
                                 this.currentShiftCalendarItem.data.date = date
                             }

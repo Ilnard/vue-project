@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import vOrders from '../views/vOrders.vue'
-import vAddOrder from '../views/vAddOrder.vue'
+import vOrderEdit from '../views/vOrderEdit.vue'
 import vOrder from '../views/vOrder.vue'
 import vOrganization from '../views/vOrganization.vue'
 import vAddMember from '../views/vAddMember.vue'
@@ -16,9 +16,9 @@ const router = createRouter({
       component: vOrders,
     },
     {
-      path: '/addorder',
+      path: '/order/edit',
       name: 'addorder',
-      component: vAddOrder,
+      component: vOrderEdit,
     },
     {
       path: '/orders/:number',

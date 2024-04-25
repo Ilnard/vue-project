@@ -52,12 +52,12 @@
                 'message' => '',
             ];
 
-            $sql = "SELECT name, surname, patronymic, birthdate, position, department, employmentdate, payment FROM members WHERE id = $member_id";
+            $sql = "SELECT name, surname, patronymic, birthdate, position, department, employmentdate FROM members WHERE id = $member_id";
             $result = mysqli_query($this->conn, $sql);
 
             if (!$result) {
                 $response['status'] = false;
-                $response['message'] = 'sql query error';
+                $response['message'] = "Не удалось найти сотрудника ($sql)";
                 return $response;
             }
             else {

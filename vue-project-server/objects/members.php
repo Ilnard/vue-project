@@ -17,7 +17,7 @@
                 'status' => true
             ];
 
-            $sql = "SELECT name, surname, patronymic, birthdate, position, department, employmentdate FROM members";
+            $sql = "SELECT id, name, surname, patronymic, birthdate, position, department, employmentdate FROM members";
             $result = mysqli_query($this->conn, $sql);
 
             if (!$result) {

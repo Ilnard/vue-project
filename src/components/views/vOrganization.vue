@@ -23,8 +23,8 @@
                     <td class="cell">{{ member.surname + ' ' + member.name + ' ' + member.patronymic}}</td>
                     <td class="cell">{{ member.position }}</td>
                     <td class="cell">{{ member.department }}</td>
-                    <td class="cell">{{ member.birthdate }}</td>
-                    <td class="cell">{{ member.employmentdate }}</td>
+                    <td class="cell">{{ member.birthdateVisual }}</td>
+                    <td class="cell">{{ member.employmentdateVisual }}</td>
                 </tr>
             </tbody>
         </table>
@@ -46,7 +46,7 @@ export default {
     },
     components: { vLoader },
     created() {
-        this.generalStore.getMembersFromServer()
+        if (!this.getMembers.members.length) this.generalStore.getMembersFromServer()
     }
 }
 </script>

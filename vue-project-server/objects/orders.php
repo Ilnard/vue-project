@@ -17,7 +17,7 @@
                 'status' => true
             ];
 
-            $sql = "SELECT id, number, client, title, datetime, pay, paid, status FROM orders";
+            $sql = "SELECT id, number, client, title, datetime, endpoint, pay, status FROM orders";
             $result = mysqli_query($this->conn, $sql);
 
             if (!$result) {

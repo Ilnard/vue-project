@@ -8,8 +8,6 @@ use \Firebase\JWT\JWT;
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-// $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-
 $response = [
     'data' => '',
     'status' => true,
@@ -45,21 +43,13 @@ if ($result) {
     $response['message'] = 'Пользователь не найден';
 }
 
-$response['data'] = [
-    "user_id" => $user_info['id'],
-    "member_id" => $user_info['member_id'],
-    "name" => $member_info['name'],
-    "password" => $data['password'],
-    "surname" => $member_info['surname'],
-    "patronymic" => $member_info['patronymic'],
-];
-
 if (mb_strlen($data['login']) && mb_strlen($data['password'])) {
     if ($response['status']) {
         $jwt_decoded = [
             "exp" => $exp,
             "user_id" => $user_info['id'],
             "member_id" => $user_info['member_id'],
+            "role" => $user_info['role'],
             "name" => $member_info['name'],
             "surname" => $member_info['surname'],
             "patronymic" => $member_info['patronymic'],
